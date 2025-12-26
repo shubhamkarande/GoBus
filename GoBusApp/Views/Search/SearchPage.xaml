@@ -12,25 +12,27 @@
         
         <!-- Search Form -->
         <Frame Grid.Row="0" 
-               Style="{StaticResource CardFrame}" 
-               Margin="16,16,16,0"
-               CornerRadius="20">
+               BackgroundColor="White"
+               CornerRadius="20"
+               BorderColor="Transparent"
+               HasShadow="True"
+               Padding="16"
+               Margin="16,16,16,0">
             <VerticalStackLayout Spacing="16">
                 
                 <!-- From/To Fields with Swap -->
-                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto">
+                <Grid ColumnDefinitions="*,Auto,*">
                     
                     <!-- From -->
-                    <VerticalStackLayout Grid.Column="0" Spacing="4">
-                        <Label Text="FROM" FontSize="12" TextColor="{StaticResource TextSecondary}"/>
-                        <Border Stroke="{StaticResource Gray300}" 
-                                StrokeThickness="1" 
-                                StrokeShape="RoundRectangle 8"
-                                Padding="10,6">
-                            <Entry Placeholder="Departure City"
-                                   Text="{Binding Source}"
-                                   FontSize="14"/>
-                        </Border>
+                    <VerticalStackLayout Grid.Column="0" Spacing="6">
+                        <Label Text="FROM" FontSize="12" TextColor="#666666" FontAttributes="Bold"/>
+                        <Entry Placeholder="Departure City"
+                               Text="{Binding Source}"
+                               TextColor="#333333"
+                               PlaceholderColor="#AAAAAA"
+                               BackgroundColor="#F0F0F0"
+                               HeightRequest="45"
+                               FontSize="14"/>
                     </VerticalStackLayout>
                     
                     <!-- Swap Button -->
@@ -47,41 +49,50 @@
                             Command="{Binding SwapLocationsCommand}"/>
                     
                     <!-- To -->
-                    <VerticalStackLayout Grid.Column="2" Spacing="4">
-                        <Label Text="TO" FontSize="12" TextColor="{StaticResource TextSecondary}"/>
-                        <Border Stroke="{StaticResource Gray300}" 
-                                StrokeThickness="1" 
-                                StrokeShape="RoundRectangle 8"
-                                Padding="10,6">
-                            <Entry Placeholder="Destination City"
-                                   Text="{Binding Destination}"
-                                   FontSize="14"/>
-                        </Border>
+                    <VerticalStackLayout Grid.Column="2" Spacing="6">
+                        <Label Text="TO" FontSize="12" TextColor="#666666" FontAttributes="Bold"/>
+                        <Entry Placeholder="Destination City"
+                               Text="{Binding Destination}"
+                               TextColor="#333333"
+                               PlaceholderColor="#AAAAAA"
+                               BackgroundColor="#F0F0F0"
+                               HeightRequest="45"
+                               FontSize="14"/>
                     </VerticalStackLayout>
                     
                 </Grid>
                 
                 <!-- Date Picker -->
-                <VerticalStackLayout Spacing="4">
-                    <Label Text="TRAVEL DATE" FontSize="12" TextColor="{StaticResource TextSecondary}"/>
-                    <Border Stroke="{StaticResource Gray300}" 
-                            StrokeThickness="1" 
-                            StrokeShape="RoundRectangle 8"
-                            Padding="10,6">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="TRAVEL DATE" FontSize="12" TextColor="#666666" FontAttributes="Bold"/>
+                    <Frame BackgroundColor="#F0F0F0" 
+                           Padding="12,0"
+                           HeightRequest="45"
+                           CornerRadius="8"
+                           BorderColor="Transparent">
                         <DatePicker Date="{Binding TravelDate}"
                                     MinimumDate="{Binding MinDate}"
                                     MaximumDate="{Binding MaxDate}"
-                                    Format="ddd, dd MMM yyyy"/>
-                    </Border>
+                                    Format="ddd, dd MMM yyyy"
+                                    TextColor="#333333"
+                                    VerticalOptions="Center"/>
+                    </Frame>
                 </VerticalStackLayout>
                 
                 <!-- Search Button -->
                 <Button Text="🔍 Search Buses"
-                        Style="{StaticResource PrimaryButton}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HeightRequest="50"
+                        CornerRadius="12"
                         Command="{Binding SearchCommand}"
                         IsEnabled="{Binding IsNotBusy}"/>
                 
-                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="{StaticResource Primary}"/>
                 
             </VerticalStackLayout>
         </Frame>
@@ -91,16 +102,20 @@
             <VerticalStackLayout Spacing="12">
                 
                 <!-- No Results -->
-                <Frame Style="{StaticResource CardFrame}" 
+                <Frame BackgroundColor="White"
+                       CornerRadius="16"
+                       BorderColor="Transparent"
+                       HasShadow="True"
                        IsVisible="{Binding NoResults}"
                        Padding="30">
                     <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
                         <Label Text="🚌" FontSize="48" HorizontalOptions="Center"/>
                         <Label Text="No buses found" 
-                               Style="{StaticResource SubtitleLabel}"
+                               FontSize="18"
+                               TextColor="#333333"
                                HorizontalOptions="Center"/>
                         <Label Text="Try different dates or routes" 
-                               TextColor="{StaticResource TextSecondary}"
+                               TextColor="#666666"
                                FontSize="14"
                                HorizontalOptions="Center"/>
                     </VerticalStackLayout>
@@ -111,7 +126,12 @@
                                 SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Bus">
-                            <Frame Style="{StaticResource CardFrame}" Margin="0,0,0,8">
+                            <Frame BackgroundColor="White" 
+                                   CornerRadius="16" 
+                                   BorderColor="Transparent"
+                                   HasShadow="True"
+                                   Padding="16"
+                                   Margin="0,0,0,8">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer 
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=SelectBusCommand}"
@@ -125,8 +145,8 @@
                                         <Label Text="{Binding Name}" 
                                                FontSize="16" 
                                                FontAttributes="Bold"
-                                               TextColor="{StaticResource TextPrimary}"/>
-                                        <Frame BackgroundColor="{StaticResource PrimaryLight}" 
+                                               TextColor="#333333"/>
+                                        <Frame BackgroundColor="{StaticResource Primary}" 
                                                Padding="8,4" 
                                                CornerRadius="4"
                                                BorderColor="Transparent">
@@ -141,16 +161,17 @@
                                         <VerticalStackLayout>
                                             <Label Text="{Binding FormattedDepartureTime}" 
                                                    FontSize="18" 
-                                                   FontAttributes="Bold"/>
+                                                   FontAttributes="Bold"
+                                                   TextColor="#333333"/>
                                             <Label Text="{Binding Source}" 
                                                    FontSize="12" 
-                                                   TextColor="{StaticResource TextSecondary}"/>
+                                                   TextColor="#666666"/>
                                         </VerticalStackLayout>
                                         
                                         <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
                                             <Label Text="{Binding Duration}" 
                                                    FontSize="12" 
-                                                   TextColor="{StaticResource TextSecondary}"
+                                                   TextColor="#666666"
                                                    HorizontalOptions="Center"/>
                                             <Label Text="→" 
                                                    FontSize="20" 
@@ -162,22 +183,25 @@
                                             <Label Text="{Binding FormattedArrivalTime}" 
                                                    FontSize="18" 
                                                    FontAttributes="Bold"
+                                                   TextColor="#333333"
                                                    HorizontalOptions="End"/>
                                             <Label Text="{Binding Destination}" 
                                                    FontSize="12" 
-                                                   TextColor="{StaticResource TextSecondary}"
+                                                   TextColor="#666666"
                                                    HorizontalOptions="End"/>
                                         </VerticalStackLayout>
                                     </Grid>
                                     
-                                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}"/>
+                                    <BoxView HeightRequest="1" Color="#EEEEEE"/>
                                     
                                     <!-- Price & Seats -->
                                     <HorizontalStackLayout>
                                         <Label Text="{Binding FormattedPrice}" 
-                                               Style="{StaticResource PriceLabel}"/>
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Primary}"/>
                                         <Label Text=" per seat" 
-                                               TextColor="{StaticResource TextSecondary}"
+                                               TextColor="#666666"
                                                VerticalOptions="End"
                                                Margin="0,0,0,2"/>
                                         
@@ -188,7 +212,7 @@
                                                           TextColor="{StaticResource Success}" 
                                                           FontAttributes="Bold"/>
                                                     <Span Text=" seats available" 
-                                                          TextColor="{StaticResource TextSecondary}"/>
+                                                          TextColor="#666666"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>

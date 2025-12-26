@@ -14,7 +14,7 @@ public class Bus
     public DateTime DepartureTime { get; set; }
     public DateTime ArrivalTime { get; set; }
     public string? Duration { get; set; }
-    public decimal Price { get; set; }
+    public string Price { get; set; } = "0";
     public int TotalSeats { get; set; }
     public int AvailableSeats { get; set; }
     public int Rows { get; set; }
@@ -25,6 +25,11 @@ public class Bus
     public bool HasWater { get; set; }
     public string OperatorName { get; set; } = string.Empty;
     public List<Seat> Seats { get; set; } = new();
+    
+    /// <summary>
+    /// Parse price as decimal for calculations
+    /// </summary>
+    public decimal PriceValue => decimal.TryParse(Price, out var p) ? p : 0;
     
     /// <summary>
     /// Formatted departure time for display
@@ -44,7 +49,7 @@ public class Bus
     /// <summary>
     /// Formatted price for display
     /// </summary>
-    public string FormattedPrice => $"₹{Price:N0}";
+    public string FormattedPrice => $"₹{PriceValue:N0}";
     
     /// <summary>
     /// Amenities list for display

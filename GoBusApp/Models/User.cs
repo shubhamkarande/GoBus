@@ -18,8 +18,12 @@ public class User
 /// </summary>
 public class AuthTokens
 {
-    public string AccessToken { get; set; } = string.Empty;
-    public string RefreshToken { get; set; } = string.Empty;
+    public string Access { get; set; } = string.Empty;
+    public string Refresh { get; set; } = string.Empty;
+    
+    // Helper properties for backward compatibility
+    public string AccessToken => Access;
+    public string RefreshToken => Refresh;
 }
 
 /// <summary>

@@ -16,7 +16,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
 
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '10.220.222.11', '0.0.0.0', '*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -72,16 +72,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gobus.wsgi.application'
 
-# Database - Using direct config (DATABASE_URL can override if needed)
+# Database - Use environment variables (set in .env file)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gobus',
-        'USER': 'postgres',
-        'PASSWORD': 'ILovePostgreSQL@#&143',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', 'postgres://postgres:password@localhost:5432/gobus'),
+        conn_max_age=600
+    )
 }
 
 # Custom User Model

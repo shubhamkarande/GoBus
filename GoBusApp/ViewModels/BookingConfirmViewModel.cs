@@ -59,7 +59,7 @@ public partial class BookingConfirmViewModel : BaseViewModel
         if (Bus == null) return;
         
         SelectedSeatsDisplay = string.Join(", ", SelectedSeatsList.Select(s => s.SeatNumber));
-        TotalPrice = SelectedSeatsList.Count * Bus.Price;
+        TotalPrice = SelectedSeatsList.Count * Bus.PriceValue;
         
         // Pre-fill user details
         var user = await _authService.GetCurrentUserAsync();

@@ -102,7 +102,7 @@ public partial class SeatSelectionViewModel : BaseViewModel
     {
         if (Bus == null) return;
         
-        TotalPrice = SelectedSeats.Count * Bus.Price;
+        TotalPrice = SelectedSeats.Count * Bus.PriceValue;
         SelectedSeatsDisplay = SelectedSeats.Count > 0 
             ? string.Join(", ", SelectedSeats.Select(s => s.SeatNumber))
             : "No seats selected";

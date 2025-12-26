@@ -35,17 +35,17 @@
 
     <!-- Main Tab Bar -->
     <TabBar Route="main" Style="{StaticResource BaseStyle}">
-        <Tab Title="Search" Icon="search_icon.png">
+        <Tab Title="🔍 Search">
             <ShellContent Route="search"
                           ContentTemplate="{DataTemplate search:SearchPage}" />
         </Tab>
         
-        <Tab Title="My Trips" Icon="ticket_icon.png">
+        <Tab Title="🎫 Trips">
             <ShellContent Route="trips"
                           ContentTemplate="{DataTemplate tickets:TripHistoryPage}" />
         </Tab>
         
-        <Tab Title="Profile" Icon="profile_icon.png">
+        <Tab Title="👤 Profile">
             <ShellContent Route="profile"
                           ContentTemplate="{DataTemplate profile:ProfilePage}" />
         </Tab>

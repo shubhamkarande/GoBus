@@ -17,16 +17,29 @@ public partial class App : Application
     {
         base.OnStart();
         
-        // Check if user is already logged in
-        var isLoggedIn = await _authService.IsLoggedInAsync();
-        
-        if (isLoggedIn)
+        try
         {
-            await Shell.Current.GoToAsync("//main/search");
+            // Check if user is already logged in
+            var isLoggedIn = await _authService.IsLoggedInAsync();
+            
+            if (isLoggedIn)
+            {
+                await Shell.Current.GoToAsync("///search");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync("//login");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await Shell.Current.GoToAsync("//login");
+            System.Diagnostics.Debug.WriteLine($"Startup error: {ex.Message}");
+            // Navigate to login on any error
+            try
+            {
+                await Shell.Current.GoToAsync("//login");
+            }
+            catch { }
         }
     }
 }
