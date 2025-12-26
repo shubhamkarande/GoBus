@@ -39,6 +39,6 @@ public class NavigationService : INavigationService
 
     public async Task GoToMainAsync()
     {
-        await Shell.Current.GoToAsync("//main/search");
+        await Shell.Current.GoToAsync("///search");
     }
 }

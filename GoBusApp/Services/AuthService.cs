@@ -71,6 +71,9 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> LoginAsync(string email, string password)
     {
+        // Clear any existing auth token before login
+        _apiService.ClearAuthToken();
+        
         var response = await _apiService.PostAsync<AuthResponse>("auth/login/", new
         {
             email,
@@ -94,6 +97,9 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> RegisterAsync(string email, string name, string password, string phone)
     {
+        // Clear any existing auth token before registration
+        _apiService.ClearAuthToken();
+        
         var response = await _apiService.PostAsync<AuthResponse>("auth/register/", new
         {
             email,
