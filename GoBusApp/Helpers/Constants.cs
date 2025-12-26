@@ -6,8 +6,10 @@ namespace GoBusApp.Helpers;
 public static class Constants
 {
     // API Configuration
+    // For physical device: use laptop's IP on the hotspot network
+    // For emulator: use 10.0.2.2
     #if DEBUG
-    public const string ApiBaseUrl = "http://10.0.2.2:8000/api/";  // Android emulator localhost
+    public const string ApiBaseUrl = "http://10.220.222.11:8000/api/";  // Laptop IP on phone hotspot
     #else
     public const string ApiBaseUrl = "https://your-production-url.com/api/";
     #endif
