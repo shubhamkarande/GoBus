@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="GoBusApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:auth="clr-namespace:GoBusApp.Views.Auth"
+    xmlns:search="clr-namespace:GoBusApp.Views.Search"
+    xmlns:seats="clr-namespace:GoBusApp.Views.Seats"
+    xmlns:booking="clr-namespace:GoBusApp.Views.Booking"
+    xmlns:tickets="clr-namespace:GoBusApp.Views.Tickets"
+    xmlns:profile="clr-namespace:GoBusApp.Views.Profile"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="True">
+
+    <Shell.Resources>
+        <Style x:Key="BaseStyle" TargetType="Element">
+            <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="Shell.ForegroundColor" Value="White" />
+            <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="Shell.TabBarForegroundColor" Value="White" />
+            <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource PrimaryLight}" />
+        </Style>
+    </Shell.Resources>
+
+    <!-- Auth Routes (not in tab bar) -->
+    <ShellContent Route="login"
+                  ContentTemplate="{DataTemplate auth:LoginPage}"
+                  Shell.TabBarIsVisible="False"
+                  Shell.NavBarIsVisible="False" />
+    
+    <ShellContent Route="register"
+                  ContentTemplate="{DataTemplate auth:RegisterPage}"
+                  Shell.TabBarIsVisible="False"
+                  Shell.NavBarIsVisible="False" />
+
+    <!-- Main Tab Bar -->
+    <TabBar Route="main" Style="{StaticResource BaseStyle}">
+        <Tab Title="Search" Icon="search_icon.png">
+            <ShellContent Route="search"
+                          ContentTemplate="{DataTemplate search:SearchPage}" />
+        </Tab>
+        
+        <Tab Title="My Trips" Icon="ticket_icon.png">
+            <ShellContent Route="trips"
+                          ContentTemplate="{DataTemplate tickets:TripHistoryPage}" />
+        </Tab>
+        
+        <Tab Title="Profile" Icon="profile_icon.png">
+            <ShellContent Route="profile"
+                          ContentTemplate="{DataTemplate profile:ProfilePage}" />
+        </Tab>
+    </TabBar>
+
+</Shell>

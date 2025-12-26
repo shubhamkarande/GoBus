@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GoBusApp.ViewModels"
+             xmlns:models="clr-namespace:GoBusApp.Models"
+             x:Class="GoBusApp.Views.Search.SearchPage"
+             x:DataType="viewmodels:SearchViewModel"
+             Title="Search Buses"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid RowDefinitions="Auto,*">
+        
+        <!-- Search Form -->
+        <Frame Grid.Row="0" 
+               Style="{StaticResource CardFrame}" 
+               Margin="16,16,16,0"
+               CornerRadius="20">
+            <VerticalStackLayout Spacing="16">
+                
+                <!-- From/To Fields with Swap -->
+                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto">
+                    
+                    <!-- From -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                        <Label Text="FROM" FontSize="12" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" 
+                                StrokeThickness="1" 
+                                StrokeShape="RoundRectangle 8"
+                                Padding="10,6">
+                            <Entry Placeholder="Departure City"
+                                   Text="{Binding Source}"
+                                   FontSize="14"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <!-- Swap Button -->
+                    <Button Grid.Column="1" 
+                            Text="⇄" 
+                            FontSize="20"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            CornerRadius="22"
+                            VerticalOptions="End"
+                            Margin="8,0"
+                            Command="{Binding SwapLocationsCommand}"/>
+                    
+                    <!-- To -->
+                    <VerticalStackLayout Grid.Column="2" Spacing="4">
+                        <Label Text="TO" FontSize="12" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" 
+                                StrokeThickness="1" 
+                                StrokeShape="RoundRectangle 8"
+                                Padding="10,6">
+                            <Entry Placeholder="Destination City"
+                                   Text="{Binding Destination}"
+                                   FontSize="14"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                </Grid>
+                
+                <!-- Date Picker -->
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="TRAVEL DATE" FontSize="12" TextColor="{StaticResource TextSecondary}"/>
+                    <Border Stroke="{StaticResource Gray300}" 
+                            StrokeThickness="1" 
+                            StrokeShape="RoundRectangle 8"
+                            Padding="10,6">
+                        <DatePicker Date="{Binding TravelDate}"
+                                    MinimumDate="{Binding MinDate}"
+                                    MaximumDate="{Binding MaxDate}"
+                                    Format="ddd, dd MMM yyyy"/>
+                    </Border>
+                </VerticalStackLayout>
+                
+                <!-- Search Button -->
+                <Button Text="🔍 Search Buses"
+                        Style="{StaticResource PrimaryButton}"
+                        Command="{Binding SearchCommand}"
+                        IsEnabled="{Binding IsNotBusy}"/>
+                
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+                
+            </VerticalStackLayout>
+        </Frame>
+        
+        <!-- Results -->
+        <ScrollView Grid.Row="1" Padding="16">
+            <VerticalStackLayout Spacing="12">
+                
+                <!-- No Results -->
+                <Frame Style="{StaticResource CardFrame}" 
+                       IsVisible="{Binding NoResults}"
+                       Padding="30">
+                    <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Label Text="🚌" FontSize="48" HorizontalOptions="Center"/>
+                        <Label Text="No buses found" 
+                               Style="{StaticResource SubtitleLabel}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Try different dates or routes" 
+                               TextColor="{StaticResource TextSecondary}"
+                               FontSize="14"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!-- Bus List -->
+                <CollectionView ItemsSource="{Binding Buses}"
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Bus">
+                            <Frame Style="{StaticResource CardFrame}" Margin="0,0,0,8">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=SelectBusCommand}"
+                                        CommandParameter="{Binding}"/>
+                                </Frame.GestureRecognizers>
+                                
+                                <VerticalStackLayout Spacing="12">
+                                    
+                                    <!-- Bus Name & Type -->
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="{Binding Name}" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                        <Frame BackgroundColor="{StaticResource PrimaryLight}" 
+                                               Padding="8,4" 
+                                               CornerRadius="4"
+                                               BorderColor="Transparent">
+                                            <Label Text="{Binding BusTypeDisplay}" 
+                                                   FontSize="11" 
+                                                   TextColor="White"/>
+                                        </Frame>
+                                    </HorizontalStackLayout>
+                                    
+                                    <!-- Times -->
+                                    <Grid ColumnDefinitions="*,Auto,*">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding FormattedDepartureTime}" 
+                                                   FontSize="18" 
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding Source}" 
+                                                   FontSize="12" 
+                                                   TextColor="{StaticResource TextSecondary}"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                                            <Label Text="{Binding Duration}" 
+                                                   FontSize="12" 
+                                                   TextColor="{StaticResource TextSecondary}"
+                                                   HorizontalOptions="Center"/>
+                                            <Label Text="→" 
+                                                   FontSize="20" 
+                                                   TextColor="{StaticResource Primary}"
+                                                   HorizontalOptions="Center"/>
+                                        </VerticalStackLayout>
+                                        
+                                        <VerticalStackLayout Grid.Column="2" HorizontalOptions="End">
+                                            <Label Text="{Binding FormattedArrivalTime}" 
+                                                   FontSize="18" 
+                                                   FontAttributes="Bold"
+                                                   HorizontalOptions="End"/>
+                                            <Label Text="{Binding Destination}" 
+                                                   FontSize="12" 
+                                                   TextColor="{StaticResource TextSecondary}"
+                                                   HorizontalOptions="End"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                    
+                                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}"/>
+                                    
+                                    <!-- Price & Seats -->
+                                    <HorizontalStackLayout>
+                                        <Label Text="{Binding FormattedPrice}" 
+                                               Style="{StaticResource PriceLabel}"/>
+                                        <Label Text=" per seat" 
+                                               TextColor="{StaticResource TextSecondary}"
+                                               VerticalOptions="End"
+                                               Margin="0,0,0,2"/>
+                                        
+                                        <Label HorizontalOptions="EndAndExpand">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding AvailableSeats}" 
+                                                          TextColor="{StaticResource Success}" 
+                                                          FontAttributes="Bold"/>
+                                                    <Span Text=" seats available" 
+                                                          TextColor="{StaticResource TextSecondary}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </HorizontalStackLayout>
+                                    
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                
+            </VerticalStackLayout>
+        </ScrollView>
+        
+    </Grid>
+</ContentPage>

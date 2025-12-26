@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GoBusApp.ViewModels"
+             x:Class="GoBusApp.Views.Auth.RegisterPage"
+             x:DataType="viewmodels:RegisterViewModel"
+             BackgroundColor="{StaticResource Background}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="20">
+            
+            <!-- Header -->
+            <VerticalStackLayout Spacing="8" Margin="0,20,0,20">
+                <Label Text="Create Account" 
+                       Style="{StaticResource TitleLabel}"
+                       HorizontalOptions="Center"/>
+                <Label Text="Join GoBus and start booking" 
+                       Style="{StaticResource SubtitleLabel}"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            
+            <!-- Register Form -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+                    
+                    <!-- Name -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Full Name" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" 
+                                StrokeThickness="1" 
+                                StrokeShape="RoundRectangle 8"
+                                Padding="12,8">
+                            <Entry Placeholder="Enter your full name"
+                                   Text="{Binding Name}"
+                                   ReturnType="Next"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <!-- Email -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Email" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" 
+                                StrokeThickness="1" 
+                                StrokeShape="RoundRectangle 8"
+                                Padding="12,8">
+                            <Entry Placeholder="Enter your email"
+                                   Text="{Binding Email}"
+                                   Keyboard="Email"
+                                   ReturnType="Next"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <!-- Phone -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Phone Number" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" 
+                                StrokeThickness="1" 
+                                StrokeShape="RoundRectangle 8"
+                                Padding="12,8">
+                            <Entry Placeholder="Enter phone number"
+                                   Text="{Binding Phone}"
+                                   Keyboard="Telephone"
+                                   ReturnType="Next"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <!-- Password -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Password" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" 
+                                StrokeThickness="1" 
+                                StrokeShape="RoundRectangle 8"
+                                Padding="12,8">
+                            <Entry Placeholder="Create a password"
+                                   Text="{Binding Password}"
+                                   IsPassword="True"
+                                   ReturnType="Next"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <!-- Confirm Password -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Confirm Password" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" 
+                                StrokeThickness="1" 
+                                StrokeShape="RoundRectangle 8"
+                                Padding="12,8">
+                            <Entry Placeholder="Confirm your password"
+                                   Text="{Binding ConfirmPassword}"
+                                   IsPassword="True"
+                                   ReturnType="Done"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <!-- Register Button -->
+                    <Button Text="Create Account"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding RegisterCommand}"
+                            IsEnabled="{Binding IsNotBusy}"
+                            Margin="0,10,0,0"/>
+                    
+                    <!-- Loading -->
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                                       IsVisible="{Binding IsBusy}"/>
+                    
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Login Link -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                <Label Text="Already have an account?"
+                       TextColor="{StaticResource TextSecondary}"
+                       VerticalOptions="Center"/>
+                <Button Text="Login"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource Primary}"
+                        FontAttributes="Bold"
+                        Padding="0"
+                        Command="{Binding GoToLoginCommand}"/>
+            </HorizontalStackLayout>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

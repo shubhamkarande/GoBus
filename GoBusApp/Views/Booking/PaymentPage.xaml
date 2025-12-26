@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GoBusApp.ViewModels"
+             x:Class="GoBusApp.Views.Booking.PaymentPage"
+             x:DataType="viewmodels:PaymentViewModel"
+             Title="Payment"
+             BackgroundColor="{StaticResource Background}">
+
+    <VerticalStackLayout Padding="24" Spacing="24" VerticalOptions="Center">
+        
+        <!-- Payment Card -->
+        <Frame Style="{StaticResource CardFrame}" Padding="30">
+            <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+                
+                <!-- Amount -->
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="Amount to Pay" 
+                           TextColor="{StaticResource TextSecondary}" 
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding Booking.TotalAmount, StringFormat='₹{0:N0}'}" 
+                           FontSize="36" 
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                
+                <BoxView HeightRequest="1" Color="{StaticResource Gray200}"/>
+                
+                <!-- Status -->
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <Label Text="{Binding PaymentStatus}" 
+                           FontSize="16"
+                           HorizontalOptions="Center"/>
+                    
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+                    
+                    <!-- Success Icon -->
+                    <Label Text="✓" 
+                           FontSize="60" 
+                           TextColor="{StaticResource Success}"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding PaymentCompleted}"/>
+                </VerticalStackLayout>
+                
+                <!-- Mock Payment Info -->
+                <Frame BackgroundColor="{StaticResource Gray100}" 
+                       Padding="16" 
+                       CornerRadius="8"
+                       BorderColor="Transparent"
+                       IsVisible="{Binding PaymentInitiated}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="🔒 Payment Gateway (Mock Mode)" 
+                               FontSize="12" 
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+                        <Label Text="In production, this will open Razorpay checkout. Click 'Pay Now' to simulate a successful payment."
+                               FontSize="11"
+                               TextColor="{StaticResource TextSecondary}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+            </VerticalStackLayout>
+        </Frame>
+        
+        <!-- Action Buttons -->
+        <VerticalStackLayout Spacing="12" IsVisible="{Binding PaymentInitiated}">
+            <Button Text="💳 Pay Now"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding ProcessPaymentCommand}"
+                    IsEnabled="{Binding IsNotBusy}"
+                    IsVisible="{Binding PaymentCompleted, Converter={StaticResource InvertedBoolConverter}}"/>
+            
+            <Button Text="Cancel"
+                    Style="{StaticResource SecondaryButton}"
+                    Command="{Binding CancelPaymentCommand}"
+                    IsVisible="{Binding PaymentCompleted, Converter={StaticResource InvertedBoolConverter}}"/>
+        </VerticalStackLayout>
+        
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GoBusApp.ViewModels"
+             xmlns:models="clr-namespace:GoBusApp.Models"
+             x:Class="GoBusApp.Views.Tickets.TripHistoryPage"
+             x:DataType="viewmodels:TripHistoryViewModel"
+             Title="My Trips"
+             BackgroundColor="{StaticResource Background}">
+
+    <RefreshView Command="{Binding LoadTripsCommand}" IsRefreshing="{Binding IsBusy}">
+        <ScrollView>
+            <VerticalStackLayout Padding="16" Spacing="16">
+                
+                <!-- Upcoming Trips -->
+                <VerticalStackLayout Spacing="12" IsVisible="{Binding HasUpcoming}">
+                    <Label Text="Upcoming Trips" Style="{StaticResource SectionHeader}"/>
+                    
+                    <CollectionView ItemsSource="{Binding UpcomingTrips}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Booking">
+                                <Frame Style="{StaticResource CardFrame}" Margin="0,0,0,8">
+                                    <VerticalStackLayout Spacing="12">
+                                        
+                                        <!-- Route -->
+                                        <HorizontalStackLayout Spacing="4">
+                                            <Label Text="{Binding Source}" FontSize="16" FontAttributes="Bold"/>
+                                            <Label Text="→" TextColor="{StaticResource Primary}" FontSize="16"/>
+                                            <Label Text="{Binding Destination}" FontSize="16" FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
+                                        
+                                        <!-- Details -->
+                                        <Grid ColumnDefinitions="*,*">
+                                            <VerticalStackLayout>
+                                                <Label Text="🚌" FontSize="12"/>
+                                                <Label Text="{Binding BusName}" FontSize="12" TextColor="{StaticResource TextSecondary}"/>
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout Grid.Column="1" HorizontalOptions="End">
+                                                <Label Text="📅" FontSize="12" HorizontalOptions="End"/>
+                                                <Label Text="{Binding DepartureTime, StringFormat='{0:ddd, dd MMM hh:mm tt}'}" 
+                                                       FontSize="12" 
+                                                       TextColor="{StaticResource TextSecondary}"
+                                                       HorizontalOptions="End"/>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                        
+                                        <!-- Status & Actions -->
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Frame BackgroundColor="{StaticResource Success}" 
+                                                   Padding="8,4" 
+                                                   CornerRadius="4"
+                                                   BorderColor="Transparent">
+                                                <Label Text="{Binding StatusDisplay}" FontSize="11" TextColor="White"/>
+                                            </Frame>
+                                            
+                                            <HorizontalStackLayout HorizontalOptions="EndAndExpand" Spacing="8">
+                                                <Button Text="View Ticket"
+                                                        FontSize="12"
+                                                        Padding="12,6"
+                                                        BackgroundColor="{StaticResource Primary}"
+                                                        TextColor="White"
+                                                        CornerRadius="4"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:TripHistoryViewModel}}, Path=ViewTicketCommand}"
+                                                        CommandParameter="{Binding}"/>
+                                            </HorizontalStackLayout>
+                                        </HorizontalStackLayout>
+                                        
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+                
+                <!-- Past Trips -->
+                <VerticalStackLayout Spacing="12" IsVisible="{Binding HasPast}">
+                    <Label Text="Past Trips" Style="{StaticResource SectionHeader}"/>
+                    
+                    <CollectionView ItemsSource="{Binding PastTrips}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Booking">
+                                <Frame Style="{StaticResource CardFrame}" Margin="0,0,0,8" Opacity="0.8">
+                                    <HorizontalStackLayout Spacing="12">
+                                        <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Label Text="{Binding Source}" FontSize="14"/>
+                                                <Label Text="→" TextColor="{StaticResource TextSecondary}" FontSize="14"/>
+                                                <Label Text="{Binding Destination}" FontSize="14"/>
+                                            </HorizontalStackLayout>
+                                            <Label Text="{Binding DepartureTime, StringFormat='{0:dd MMM yyyy}'}" 
+                                                   FontSize="12" 
+                                                   TextColor="{StaticResource TextSecondary}"/>
+                                        </VerticalStackLayout>
+                                        <Label Text="{Binding StatusDisplay}" 
+                                               VerticalOptions="Center"
+                                               FontSize="12"/>
+                                    </HorizontalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+                
+                <!-- Empty State -->
+                <Frame Style="{StaticResource CardFrame}" 
+                       Padding="40"
+                       IsVisible="{Binding HasUpcoming, Converter={StaticResource InvertedBoolConverter}}">
+                    <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Label Text="🎫" FontSize="48" HorizontalOptions="Center"/>
+                        <Label Text="No trips yet" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Search and book your first bus ticket!"
+                               TextColor="{StaticResource TextSecondary}"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

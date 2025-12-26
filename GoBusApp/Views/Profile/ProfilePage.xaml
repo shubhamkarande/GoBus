@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GoBusApp.ViewModels"
+             x:Class="GoBusApp.Views.Profile.ProfilePage"
+             x:DataType="viewmodels:ProfileViewModel"
+             Title="Profile"
+             BackgroundColor="{StaticResource Background}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+            
+            <!-- User Card -->
+            <Frame Style="{StaticResource CardFrame}">
+                <HorizontalStackLayout Spacing="16">
+                    <Frame WidthRequest="64" 
+                           HeightRequest="64" 
+                           CornerRadius="32"
+                           BackgroundColor="{StaticResource Primary}"
+                           BorderColor="Transparent"
+                           Padding="0">
+                        <Label Text="{Binding User.Name, StringFormat='{0:C}'}" 
+                               FontSize="28"
+                               TextColor="White"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Frame>
+                    <VerticalStackLayout VerticalOptions="Center">
+                        <Label Text="{Binding User.Name}" FontSize="18" FontAttributes="Bold"/>
+                        <Label Text="{Binding User.Email}" FontSize="14" TextColor="{StaticResource TextSecondary}"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Frame>
+            
+            <!-- Settings Section -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="0">
+                    
+                    <Label Text="Settings" 
+                           Style="{StaticResource SectionHeader}" 
+                           Margin="0,0,0,12"/>
+                    
+                    <!-- Support -->
+                    <Frame BackgroundColor="Transparent" 
+                           Padding="0,12" 
+                           BorderColor="Transparent">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenSupportCommand}"/>
+                        </Frame.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="📧" FontSize="20"/>
+                            <Label Text="Contact Support" FontSize="16" VerticalOptions="Center"/>
+                            <Label Text="→" 
+                                   TextColor="{StaticResource TextSecondary}" 
+                                   HorizontalOptions="EndAndExpand"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+                    
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}"/>
+                    
+                    <!-- Privacy -->
+                    <Frame BackgroundColor="Transparent" 
+                           Padding="0,12" 
+                           BorderColor="Transparent">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenPrivacyPolicyCommand}"/>
+                        </Frame.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="🔒" FontSize="20"/>
+                            <Label Text="Privacy Policy" FontSize="16" VerticalOptions="Center"/>
+                            <Label Text="→" 
+                                   TextColor="{StaticResource TextSecondary}" 
+                                   HorizontalOptions="EndAndExpand"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+                    
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}"/>
+                    
+                    <!-- Terms -->
+                    <Frame BackgroundColor="Transparent" 
+                           Padding="0,12" 
+                           BorderColor="Transparent">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenTermsCommand}"/>
+                        </Frame.GestureRecognizers>
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="📄" FontSize="20"/>
+                            <Label Text="Terms of Service" FontSize="16" VerticalOptions="Center"/>
+                            <Label Text="→" 
+                                   TextColor="{StaticResource TextSecondary}" 
+                                   HorizontalOptions="EndAndExpand"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+                    
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Logout Button -->
+            <Button Text="Logout"
+                    Style="{StaticResource SecondaryButton}"
+                    TextColor="{StaticResource Danger}"
+                    BorderColor="{StaticResource Danger}"
+                    Command="{Binding LogoutCommand}"/>
+            
+            <!-- App Version -->
+            <Label Text="{Binding AppVersion, StringFormat='GoBus v{0}'}"
+                   FontSize="12"
+                   TextColor="{StaticResource TextSecondary}"
+                   HorizontalOptions="Center"
+                   Margin="0,20,0,0"/>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

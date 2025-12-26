@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GoBusApp.ViewModels"
+             xmlns:models="clr-namespace:GoBusApp.Models"
+             x:Class="GoBusApp.Views.Seats.SeatSelectionPage"
+             x:DataType="viewmodels:SeatSelectionViewModel"
+             Title="Select Seats"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        
+        <!-- Bus Info Header -->
+        <Frame Grid.Row="0" Style="{StaticResource CardFrame}" Margin="16,16,16,8">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{Binding Bus.Name}" FontSize="18" FontAttributes="Bold"/>
+                <HorizontalStackLayout Spacing="4">
+                    <Label Text="{Binding Bus.Source}" FontSize="14"/>
+                    <Label Text="→" TextColor="{StaticResource Primary}" FontSize="14"/>
+                    <Label Text="{Binding Bus.Destination}" FontSize="14"/>
+                </HorizontalStackLayout>
+                <Label Text="{Binding Bus.FormattedDate}" TextColor="{StaticResource TextSecondary}" FontSize="12"/>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <!-- Seat Grid -->
+        <ScrollView Grid.Row="1" Padding="16">
+            <VerticalStackLayout Spacing="16">
+                
+                <!-- Legend -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <HorizontalStackLayout Spacing="6">
+                        <BoxView WidthRequest="20" HeightRequest="20" Color="{StaticResource SeatAvailable}" CornerRadius="4"/>
+                        <Label Text="Available" VerticalOptions="Center" FontSize="12"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="6">
+                        <BoxView WidthRequest="20" HeightRequest="20" Color="{StaticResource SeatBooked}" CornerRadius="4"/>
+                        <Label Text="Booked" VerticalOptions="Center" FontSize="12"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="6">
+                        <BoxView WidthRequest="20" HeightRequest="20" Color="{StaticResource SeatSelected}" CornerRadius="4"/>
+                        <Label Text="Selected" VerticalOptions="Center" FontSize="12"/>
+                    </HorizontalStackLayout>
+                </HorizontalStackLayout>
+                
+                <!-- Driver Section -->
+                <Frame BackgroundColor="{StaticResource Gray200}" 
+                       Padding="16,8" 
+                       CornerRadius="8"
+                       BorderColor="Transparent"
+                       HorizontalOptions="Start"
+                       WidthRequest="80">
+                    <Label Text="🚗 Driver" FontSize="11" HorizontalOptions="Center"/>
+                </Frame>
+                
+                <!-- Seat Layout -->
+                <Frame Style="{StaticResource CardFrame}" Padding="20">
+                    <CollectionView ItemsSource="{Binding Seats}"
+                                    ItemsLayout="VerticalGrid, 4"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Seat">
+                                <Button Text="{Binding SeatNumber}"
+                                        BackgroundColor="{Binding BackgroundColor}"
+                                        TextColor="White"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        WidthRequest="60"
+                                        HeightRequest="50"
+                                        CornerRadius="8"
+                                        Margin="4"
+                                        IsEnabled="{Binding CanSelect}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SeatSelectionViewModel}}, Path=ToggleSeatCommand}"
+                                        CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+                
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+                
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <!-- Bottom Bar -->
+        <Frame Grid.Row="2" 
+               Style="{StaticResource CardFrame}" 
+               Margin="0"
+               CornerRadius="0"
+               Padding="16">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout>
+                    <Label Text="{Binding SelectedSeatsDisplay}" FontSize="14" TextColor="{StaticResource TextSecondary}"/>
+                    <Label Text="{Binding TotalPrice, StringFormat='₹{0:N0}'}" 
+                           Style="{StaticResource PriceLabel}"/>
+                </VerticalStackLayout>
+                
+                <Button Grid.Column="1"
+                        Text="Continue"
+                        Style="{StaticResource PrimaryButton}"
+                        WidthRequest="140"
+                        Command="{Binding ProceedToBookingCommand}"
+                        IsEnabled="{Binding CanProceed}"/>
+            </Grid>
+        </Frame>
+        
+    </Grid>
+</ContentPage>

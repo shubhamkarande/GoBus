@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    
+    <!-- Primary Colors -->
+    <Color x:Key="Primary">#1E88E5</Color>
+    <Color x:Key="PrimaryDark">#1565C0</Color>
+    <Color x:Key="PrimaryLight">#64B5F6</Color>
+    
+    <!-- Accent Colors -->
+    <Color x:Key="Secondary">#FF6F00</Color>
+    <Color x:Key="SecondaryLight">#FFA040</Color>
+    
+    <!-- Status Colors -->
+    <Color x:Key="Success">#43A047</Color>
+    <Color x:Key="Danger">#E53935</Color>
+    <Color x:Key="Warning">#FFC107</Color>
+    <Color x:Key="Info">#2196F3</Color>
+    
+    <!-- Neutral Colors -->
+    <Color x:Key="Background">#F5F7FA</Color>
+    <Color x:Key="Surface">#FFFFFF</Color>
+    <Color x:Key="SurfaceVariant">#E8EAED</Color>
+    
+    <!-- Text Colors -->
+    <Color x:Key="TextPrimary">#212121</Color>
+    <Color x:Key="TextSecondary">#757575</Color>
+    <Color x:Key="TextOnPrimary">#FFFFFF</Color>
+    <Color x:Key="TextDisabled">#BDBDBD</Color>
+    
+    <!-- Seat Colors -->
+    <Color x:Key="SeatAvailable">#43A047</Color>
+    <Color x:Key="SeatBooked">#E53935</Color>
+    <Color x:Key="SeatSelected">#1E88E5</Color>
+    <Color x:Key="SeatLocked">#9E9E9E</Color>
+    
+    <!-- Gray Scale -->
+    <Color x:Key="Gray100">#F5F5F5</Color>
+    <Color x:Key="Gray200">#EEEEEE</Color>
+    <Color x:Key="Gray300">#E0E0E0</Color>
+    <Color x:Key="Gray400">#BDBDBD</Color>
+    <Color x:Key="Gray500">#9E9E9E</Color>
+    <Color x:Key="Gray600">#757575</Color>
+    
+</ResourceDictionary>

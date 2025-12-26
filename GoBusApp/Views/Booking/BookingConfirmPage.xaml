@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:GoBusApp.ViewModels"
+             x:Class="GoBusApp.Views.Booking.BookingConfirmPage"
+             x:DataType="viewmodels:BookingConfirmViewModel"
+             Title="Confirm Booking"
+             BackgroundColor="{StaticResource Background}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+            
+            <!-- Trip Summary -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Trip Summary" Style="{StaticResource SectionHeader}" Margin="0"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto,*">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Bus.FormattedDepartureTime}" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="{Binding Bus.Source}" FontSize="14" TextColor="{StaticResource TextSecondary}"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1" Text="→" FontSize="24" TextColor="{StaticResource Primary}" VerticalOptions="Center"/>
+                        <VerticalStackLayout Grid.Column="2" HorizontalOptions="End">
+                            <Label Text="{Binding Bus.FormattedArrivalTime}" FontSize="18" FontAttributes="Bold" HorizontalOptions="End"/>
+                            <Label Text="{Binding Bus.Destination}" FontSize="14" TextColor="{StaticResource TextSecondary}" HorizontalOptions="End"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                    
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}"/>
+                    
+                    <HorizontalStackLayout Spacing="4">
+                        <Label Text="🚌" FontSize="14"/>
+                        <Label Text="{Binding Bus.Name}" FontSize="14"/>
+                        <Label Text="|" TextColor="{StaticResource Gray400}" Margin="4,0"/>
+                        <Label Text="{Binding Bus.FormattedDate}" FontSize="14" TextColor="{StaticResource TextSecondary}"/>
+                    </HorizontalStackLayout>
+                    
+                    <HorizontalStackLayout Spacing="4">
+                        <Label Text="💺" FontSize="14"/>
+                        <Label Text="Seats:" FontSize="14"/>
+                        <Label Text="{Binding SelectedSeatsDisplay}" FontSize="14" FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Passenger Details -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Passenger Details" Style="{StaticResource SectionHeader}" Margin="0"/>
+                    
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Full Name *" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="12,8">
+                            <Entry Placeholder="Enter passenger name" Text="{Binding PassengerName}"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Phone Number *" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="12,8">
+                            <Entry Placeholder="Enter phone number" Text="{Binding PassengerPhone}" Keyboard="Telephone"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Email *" TextColor="{StaticResource TextSecondary}"/>
+                        <Border Stroke="{StaticResource Gray300}" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="12,8">
+                            <Entry Placeholder="Enter email" Text="{Binding PassengerEmail}" Keyboard="Email"/>
+                        </Border>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Price Breakdown -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Price Breakdown" Style="{StaticResource SectionHeader}" Margin="0"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="{Binding SelectedSeatsList.Count, StringFormat='Seats ({0})'}"/>
+                        <Label Grid.Column="1" Text="{Binding Bus.Price, StringFormat='₹{0:N0} each'}"/>
+                    </Grid>
+                    
+                    <BoxView HeightRequest="1" Color="{StaticResource Gray200}"/>
+                    
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Total Amount" FontAttributes="Bold" FontSize="16"/>
+                        <Label Grid.Column="1" Text="{Binding TotalPrice, StringFormat='₹{0:N0}'}" Style="{StaticResource PriceLabel}"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Proceed Button -->
+            <Button Text="Proceed to Payment"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding CreateBookingCommand}"
+                    IsEnabled="{Binding IsNotBusy}"/>
+            
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
